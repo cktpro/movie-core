@@ -3,16 +3,14 @@
 namespace Ophim\Core\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Hacoidev\CachingModel\Contracts\Cacheable;
-use Hacoidev\CachingModel\HasCache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Ophim\Core\Traits\HasFactory;
 
-class Menu extends Model implements Cacheable
+class Menu extends Model
 {
     use CrudTrait;
     use HasFactory;
-    use HasCache;
 
     protected $table = 'menus';
     protected $fillable = ['name', 'type', 'link', 'parent_id', 'lft', 'rgt'];
@@ -33,7 +31,9 @@ class Menu extends Model implements Cacheable
      */
     public static function getTree()
     {
-        $menu = self::fromCache()->all()->sortBy('lft');
+        $menu = Cache::remember('ophim_menus_all', setting('site_cache_ttl', 5 * 60), function () {
+            return self::all();
+        })->sortBy('lft');
 
         if ($menu->count()) {
             foreach ($menu as $k => $menu_item) {

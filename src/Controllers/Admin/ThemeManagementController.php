@@ -113,7 +113,7 @@ class ThemeManagementController extends CrudController
         if (!backpack_user()->hasPermissionTo('Customize theme')) {
             abort(403);
         }
-        $theme = Theme::fromCache()->find($id);
+        $theme = Theme::find($id);
         if (is_null($theme)) {
             Alert::warning("Không tìm thấy dữ liệu giao diện")->flash();
             return redirect(backpack_url('theme'));
@@ -212,7 +212,7 @@ class ThemeManagementController extends CrudController
 
     public function reset(Request $request, $id)
     {
-        $theme = Theme::fromCache()->find($id);
+        $theme = Theme::find($id);
 
         if (is_null($theme)) {
             Alert::warning("Không tìm thấy dữ liệu giao diện")->flash();
@@ -232,7 +232,7 @@ class ThemeManagementController extends CrudController
 
     public function active($id)
     {
-        $theme = Theme::fromCache()->find($id);
+        $theme = Theme::find($id);
 
         if (is_null($theme)) {
             Alert::warning("Không tìm thấy dữ liệu giao diện")->flash();

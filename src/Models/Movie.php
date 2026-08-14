@@ -10,8 +10,6 @@ use Artesaos\SEOTools\Facades\TwitterCard;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\Settings\app\Models\Setting;
 use Ophim\Core\Contracts\TaxonomyInterface;
-use Hacoidev\CachingModel\Contracts\Cacheable;
-use Hacoidev\CachingModel\HasCache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Ophim\Core\Contracts\SeoInterface;
@@ -20,13 +18,12 @@ use Ophim\Core\Traits\HasFactory;
 use Ophim\Core\Traits\HasTitle;
 use Ophim\Core\Traits\Sluggable;
 
-class Movie extends Model implements TaxonomyInterface, Cacheable, SeoInterface
+class Movie extends Model implements TaxonomyInterface, SeoInterface
 {
     use CrudTrait;
     use ActorLog;
     use Sluggable;
     use HasFactory;
-    use HasCache;
     use HasTitle;
 
     /*

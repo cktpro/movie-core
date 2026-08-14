@@ -2,7 +2,7 @@
 
 namespace Ophim\Core\Controllers\Admin;
 
-use Ophim\CoreHttp\Requests\MenuRequest;
+use Ophim\Core\Requests\MenuRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Ophim\Core\Models\Menu;

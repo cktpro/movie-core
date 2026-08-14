@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\CoreHttp\Requests;
+namespace Ophim\Core\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

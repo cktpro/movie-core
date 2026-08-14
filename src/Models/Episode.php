@@ -5,8 +5,6 @@ namespace Ophim\Core\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\Settings\app\Models\Setting;
 use Ophim\Core\Contracts\HasUrlInterface;
-use Hacoidev\CachingModel\Contracts\Cacheable;
-use Hacoidev\CachingModel\HasCache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Ophim\Core\Contracts\SeoInterface;
@@ -18,11 +16,10 @@ use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
 
-class Episode extends Model implements Cacheable, HasUrlInterface, SeoInterface
+class Episode extends Model implements HasUrlInterface, SeoInterface
 {
     use CrudTrait;
     use HasFactory;
-    use HasCache;
     use HasTitle;
 
     /*

@@ -144,7 +144,7 @@ class OphimServiceProvider extends ServiceProvider
             \Backpack\CRUD\app\Http\Middleware\UseBackpackAuthGuardInsteadOfDefaultAuthGuard::class,
         ])]);
 
-        config(['cachebusting_string' => \PackageVersions\Versions::getVersion('hacoidev/crud')]);
+        config(['cachebusting_string' => \Composer\InstalledVersions::getPrettyVersion('backpack/crud') ?? 'unknown']);
 
         config(['backpack.base.project_logo' => '<b>Ophim</b>CMS']);
         config(['backpack.base.developer_name' => 'hacoidev']);

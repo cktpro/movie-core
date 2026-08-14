@@ -5,8 +5,6 @@ namespace Ophim\Core\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\Settings\app\Models\Setting;
 use Ophim\Core\Contracts\TaxonomyInterface;
-use Hacoidev\CachingModel\Contracts\Cacheable;
-use Hacoidev\CachingModel\HasCache;
 use Illuminate\Database\Eloquent\Model;
 use Ophim\Core\Contracts\SeoInterface;
 use Ophim\Core\Traits\HasFactory;
@@ -17,12 +15,11 @@ use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
 
-class Catalog extends Model implements TaxonomyInterface, Cacheable, SeoInterface
+class Catalog extends Model implements TaxonomyInterface, SeoInterface
 {
     use CrudTrait;
     use Sluggable;
     use HasFactory;
-    use HasCache;
 
     /*
     |--------------------------------------------------------------------------

@@ -15,7 +15,7 @@
         "backpack/crud": "^7.1",
         "backpack/settings": "^3.2",
         "backpack/permissionmanager": "^7.3",
-        "spatie/laravel-sitemap": "^8.2",
+        "spatie/laravel-sitemap": "^7.4",
         "artesaos/seotools": "^1.4"
     },
     "license": "MIT",

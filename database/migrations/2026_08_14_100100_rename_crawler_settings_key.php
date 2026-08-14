@@ -21,6 +21,16 @@ class RenameCrawlerSettingsKey extends Migration
 
     public function up()
     {
+        if (!DB::table('settings')->where('key', $this->oldKey)->exists()) {
+            return;
+        }
+
+        // Option::getEntry() đã đọc/ghi key mới ngay từ đầu, nên nếu crawler
+        // từng chạy trước khi migration này thực thi (vd. package:discover),
+        // nó có thể đã tự tạo sẵn 1 dòng rỗng ở key mới. Dòng đó là rác,
+        // ưu tiên giữ dữ liệu thật đang nằm ở key cũ.
+        DB::table('settings')->where('key', $this->newKey)->delete();
+
         DB::table('settings')->where('key', $this->oldKey)->update(['key' => $this->newKey]);
     }
 

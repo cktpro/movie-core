@@ -2,7 +2,7 @@
 
 namespace Ophim\Core\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Settings\app\Models\Setting;
 use Illuminate\Http\Request;

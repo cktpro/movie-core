@@ -3,7 +3,7 @@
 namespace Ophim\Core\Controllers\Admin;
 
 use Ophim\Core\Requests\CatalogRequest;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Ophim\Core\Models\Catalog;
 

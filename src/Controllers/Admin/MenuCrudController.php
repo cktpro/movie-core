@@ -3,7 +3,7 @@
 namespace Ophim\Core\Controllers\Admin;
 
 use Ophim\Core\Requests\MenuRequest;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Ophim\Core\Models\Menu;
 
@@ -85,7 +85,11 @@ class MenuCrudController extends CrudController
         ]);
 
         $this->crud->addField([
-            'name' => ['type', 'link', 'internal_link'],
+            // backpack/crud v7 không cho field 'name' là mảng nữa (CrudField::__construct
+            // abort 500 thẳng) -> field ghép "type" + "link" giờ khai 1 tên chính (name)
+            // + 1 tên phụ (link_name), xem resources/views/core/base/fields/page_or_link.blade.php
+            'name' => 'type',
+            'link_name' => 'link',
             'label' => 'Type',
             'type' => 'page_or_link',
         ]);

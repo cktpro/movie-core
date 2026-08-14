@@ -150,6 +150,26 @@ class OphimServiceProvider extends ServiceProvider
         config(['backpack.base.developer_name' => 'hacoidev']);
         config(['backpack.base.developer_link' => 'mailto:hacoi.dev@gmail.com']);
         config(['backpack.base.show_powered_by' => false]);
+
+        // backpack/crud v7 tra cứu view field/column/button/filter tuỳ biến qua
+        // config('backpack.crud.view_namespaces.*'), không tự động biết namespace
+        // 'ophim::' (đăng ký ở loadViewsFrom bên dưới, trỏ resources/views/core/).
+        config(['backpack.crud.view_namespaces.fields' => array_merge(
+            config('backpack.crud.view_namespaces.fields', []),
+            ['ophim::base.fields']
+        )]);
+        config(['backpack.crud.view_namespaces.columns' => array_merge(
+            config('backpack.crud.view_namespaces.columns', []),
+            ['ophim::base.columns', 'ophim::movies.columns']
+        )]);
+        config(['backpack.crud.view_namespaces.buttons' => array_merge(
+            config('backpack.crud.view_namespaces.buttons', []),
+            ['ophim::crud.buttons']
+        )]);
+        config(['backpack.crud.view_namespaces.filters' => array_merge(
+            config('backpack.crud.view_namespaces.filters', []),
+            ['ophim::crud.filters']
+        )]);
     }
 
     protected function mergeCkfinderConfigs()

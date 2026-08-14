@@ -33,6 +33,7 @@ Route::group([
     Route::crud('menu', 'MenuCrudController');
     Route::crud('episode', 'EpisodeCrudController');
     Route::crud('theme', 'ThemeManagementController');
+    Route::crud('plugin', 'PluginController');
     Route::crud('sitemap', 'SiteMapController');
     Route::get('quick-action/delete-cache', 'QuickActionController@delete_cache');
 });

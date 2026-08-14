@@ -3,7 +3,7 @@
 namespace Ophim\Core\Controllers\Admin;
 
 use Ophim\Core\Requests\MovieRequest;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -68,6 +68,11 @@ class MovieCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number','tab'=>'Thông tin phim']);
          */
 
+        // backpack/crud v7 (bản miễn phí) chặn hẳn tính năng Filter, chỉ mở khi cài
+        // package trả phí backpack/pro (xem CrudFilter::__construct()). Bọc lại để
+        // trang danh sách phim còn dùng được (không có bộ lọc) thay vì crash hẳn 500,
+        // trong lúc chờ quyết định mua backpack/pro hoặc viết lại bộ lọc thủ công.
+        if (backpack_pro()) {
         $this->crud->addFilter([
             'name'  => 'status',
             'type'  => 'select2',
@@ -166,6 +171,7 @@ class MovieCrudController extends CrudController
                 $this->crud->addClause('where', 'is_shown_in_theater', true);
             }
         );
+        } // end if (backpack_pro())
 
         CRUD::addButtonFromModelFunction('line', 'open_view', 'openView', 'beginning');
 

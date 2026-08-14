@@ -2,7 +2,7 @@
 
 namespace Ophim\Core\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 use Ophim\Core\Models\Episode;
@@ -58,7 +58,10 @@ class EpisodeCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number','tab'=>'Thông tin phim']);
          */
-        $this->crud->enableExportButtons();
+        // enableExportButtons() chỉ dùng được với backpack/pro (package trả phí) từ v7.
+        if (backpack_pro()) {
+            $this->crud->enableExportButtons();
+        }
         $this->crud->addClause('where', 'has_report', true);
 
         CRUD::addColumn([

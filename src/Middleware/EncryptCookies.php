@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Middleware;
+namespace Movie\Core\Middleware;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as Middleware;
 

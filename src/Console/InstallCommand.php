@@ -1,17 +1,17 @@
 <?php
 
-namespace Ophim\Core\Console;
+namespace Movie\Core\Console;
 
 use Backpack\Settings\app\Models\Setting;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Ophim\Core\Database\Seeders\CatalogsTableSeeder;
-use Ophim\Core\Database\Seeders\CategoriesTableSeeder;
-use Ophim\Core\Database\Seeders\MenusTableSeeder;
-use Ophim\Core\Database\Seeders\PermissionsSeeder;
-use Ophim\Core\Database\Seeders\RegionsTableSeeder;
-use Ophim\Core\Database\Seeders\SettingsTableSeeder;
-use Ophim\Core\Database\Seeders\ThemesTableSeeder;
+use Movie\Core\Database\Seeders\CatalogsTableSeeder;
+use Movie\Core\Database\Seeders\CategoriesTableSeeder;
+use Movie\Core\Database\Seeders\MenusTableSeeder;
+use Movie\Core\Database\Seeders\PermissionsSeeder;
+use Movie\Core\Database\Seeders\RegionsTableSeeder;
+use Movie\Core\Database\Seeders\SettingsTableSeeder;
+use Movie\Core\Database\Seeders\ThemesTableSeeder;
 
 class InstallCommand extends Command
 {
@@ -20,14 +20,14 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ophim:install';
+    protected $signature = 'movie:install';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Install Ophim';
+    protected $description = 'Install Movie';
 
     protected $progressBar;
 
@@ -136,7 +136,7 @@ class InstallCommand extends Command
 
         $this->progressBar->finish();
         $this->newLine(1);
-        $this->info('Ophim installation finished.');
+        $this->info('Movie installation finished.');
 
         return 0;
     }

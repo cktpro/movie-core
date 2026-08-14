@@ -4,17 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Đổi tên package Composer (2026-08-14): hacoidev/ophim-core -> roxone/ophim-core,
- * hacoidev/ophim-ripple -> roxone/ophim-ripple. Bảng `themes` lưu `package_name`
- * của theme để build đường dẫn `vendor/{package_name}/routes/web.php`
- * (OphimServiceProvider::loadThemeRoutes()) — nếu không đổi theo, route công khai
- * của theme "ripple" sẽ không nạp được sau khi đổi tên package (thư mục vendor
- * thực tế đã chuyển từ vendor/hacoidev/ophim-ripple sang vendor/roxone/ophim-ripple).
+ * Đổi tên package Composer (2026-08-14, gộp 2 lần đổi tên trong cùng ngày):
+ * hacoidev/ophim-ripple (giá trị GỐC đang có thật trên DB production, chưa
+ * từng đổi) -> roxone/movie-ripple (tên cuối cùng). Bảng `themes` lưu
+ * `package_name` của theme để build đường dẫn `vendor/{package_name}/routes/web.php`
+ * (MovieServiceProvider::loadThemeRoutes()) — nếu không đổi theo, route công khai
+ * của theme "ripple" sẽ không nạp được (thư mục vendor thực tế đã chuyển từ
+ * vendor/hacoidev/ophim-ripple sang vendor/roxone/movie-ripple).
  */
 class RenameThemePackageNames extends Migration
 {
     protected $renames = [
-        'hacoidev/ophim-ripple' => 'roxone/ophim-ripple',
+        'hacoidev/ophim-ripple' => 'roxone/movie-ripple',
     ];
 
     public function up()

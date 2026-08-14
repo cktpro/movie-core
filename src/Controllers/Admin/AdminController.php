@@ -1,12 +1,12 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
-use Ophim\Core\Models\Movie;
-use Ophim\Core\Models\Episode;
-use Ophim\Core\Models\Theme;
-use Ophim\Core\Models\User;
+use Movie\Core\Models\Movie;
+use Movie\Core\Models\Episode;
+use Movie\Core\Models\Theme;
+use Movie\Core\Models\User;
 
 class AdminController extends Controller
 {

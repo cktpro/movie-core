@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Policies;
+namespace Movie\Core\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 

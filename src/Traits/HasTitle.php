@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Traits;
+namespace Movie\Core\Traits;
 
 use Backpack\Settings\app\Models\Setting;
 use Illuminate\Support\Str;

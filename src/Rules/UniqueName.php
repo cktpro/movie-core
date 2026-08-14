@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Rules;
+namespace Movie\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\DB;

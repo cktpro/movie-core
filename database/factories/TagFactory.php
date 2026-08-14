@@ -1,9 +1,9 @@
 <?php
 
-namespace Ophim\Core\Database\Factories;
+namespace Movie\Core\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Ophim\Core\Models\Tag;
+use Movie\Core\Models\Tag;
 use Illuminate\Support\Str;
 
 class TagFactory extends Factory

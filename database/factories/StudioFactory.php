@@ -1,9 +1,9 @@
 <?php
 
-namespace Ophim\Core\Database\Factories;
+namespace Movie\Core\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Ophim\Core\Models\Studio;
+use Movie\Core\Models\Studio;
 use Illuminate\Support\Str;
 
 class StudioFactory extends Factory

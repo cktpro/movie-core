@@ -1,10 +1,10 @@
 <?php
 
-namespace Ophim\Core\Requests;
+namespace Movie\Core\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Ophim\Core\Rules\UniqueName;
+use Movie\Core\Rules\UniqueName;
 
 class TagRequest extends FormRequest
 {

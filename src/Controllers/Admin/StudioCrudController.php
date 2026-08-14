@@ -1,15 +1,15 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
-use Ophim\Core\Requests\StudioRequest;
-use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
+use Movie\Core\Requests\StudioRequest;
+use Movie\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Ophim\Core\Models\Studio;
+use Movie\Core\Models\Studio;
 
 /**
  * Class StudioCrudController
- * @package Ophim\Core\Controllers\Admin
+ * @package Movie\Core\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class StudioCrudController extends CrudController
@@ -27,7 +27,7 @@ class StudioCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Ophim\Core\Models\Studio::class);
+        CRUD::setModel(\Movie\Core\Models\Studio::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/studio');
         CRUD::setEntityNameStrings('studio', 'studios');
     }

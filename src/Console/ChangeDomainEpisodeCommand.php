@@ -1,10 +1,10 @@
 <?php
 
-namespace Ophim\Core\Console;
+namespace Movie\Core\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Ophim\Core\Models\Episode;
+use Movie\Core\Models\Episode;
 
 class ChangeDomainEpisodeCommand extends Command
 {
@@ -13,7 +13,7 @@ class ChangeDomainEpisodeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ophim:episode:change_domain_play';
+    protected $signature = 'movie:episode:change_domain_play';
 
     /**
      * The console command description.

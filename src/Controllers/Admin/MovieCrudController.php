@@ -1,23 +1,23 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
-use Ophim\Core\Requests\MovieRequest;
-use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
+use Movie\Core\Requests\MovieRequest;
+use Movie\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Ophim\Core\Models\Actor;
-use Ophim\Core\Models\Director;
-use Ophim\Core\Models\Movie;
-use Ophim\Core\Models\Region;
-use Ophim\Core\Models\Studio;
-use Ophim\Core\Models\Category;
-use Ophim\Core\Models\Tag;
+use Movie\Core\Models\Actor;
+use Movie\Core\Models\Director;
+use Movie\Core\Models\Movie;
+use Movie\Core\Models\Region;
+use Movie\Core\Models\Studio;
+use Movie\Core\Models\Category;
+use Movie\Core\Models\Tag;
 
 /**
  * Class MovieCrudController
- * @package Ophim\Core\Controllers\Admin
+ * @package Movie\Core\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class MovieCrudController extends CrudController
@@ -34,7 +34,7 @@ class MovieCrudController extends CrudController
     }
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
-    use \Ophim\Core\Traits\Operations\BulkDeleteOperation {
+    use \Movie\Core\Traits\Operations\BulkDeleteOperation {
         bulkDelete as traitBulkDelete;
     }
 
@@ -45,11 +45,11 @@ class MovieCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Ophim\Core\Models\Movie::class);
+        CRUD::setModel(\Movie\Core\Models\Movie::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/movie');
         CRUD::setEntityNameStrings('movie', 'movies');
-        CRUD::setCreateView('ophim::movies.create',);
-        CRUD::setUpdateView('ophim::movies.edit',);
+        CRUD::setCreateView('movie::movies.create',);
+        CRUD::setUpdateView('movie::movies.edit',);
     }
 
     /**
@@ -184,7 +184,7 @@ class MovieCrudController extends CrudController
             'episode_current' => 'episode_current',
             'label' => 'Thông tin',
             'type' => 'view',
-            'view' => 'ophim::movies.columns.column_movie_info',
+            'view' => 'movie::movies.columns.column_movie_info',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->where('name', 'like', '%' . $searchTerm . '%')->orWhere('origin_name', 'like', '%' . $searchTerm . '%');
                 // $query->whereRaw("MATCH(name, origin_name) AGAINST(? IN BOOLEAN MODE)", [$searchTerm]);
@@ -274,11 +274,11 @@ class MovieCrudController extends CrudController
         CRUD::addField([
             'name' => 'episodes',
             'type' => 'view',
-            'view' => 'ophim::movies.inc.episode',
+            'view' => 'movie::movies.inc.episode',
             'tab' => 'Danh sách tập phim'
         ],);
 
-        CRUD::addField(['name' => 'update_handler', 'label' => 'Trình cập nhật', 'type' => 'select_from_array', 'options' => collect(config('ophim.updaters', []))->pluck('name', 'handler')->toArray(), 'tab' => 'Cập nhật']);
+        CRUD::addField(['name' => 'update_handler', 'label' => 'Trình cập nhật', 'type' => 'select_from_array', 'options' => collect(config('movie.updaters', []))->pluck('name', 'handler')->toArray(), 'tab' => 'Cập nhật']);
         CRUD::addField(['name' => 'update_identity', 'label' => 'ID cập nhật', 'type' => 'text', 'tab' => 'Cập nhật']);
 
         CRUD::addField(['name' => 'is_shown_in_theater', 'label' => 'Phim chiếu rạp', 'type' => 'boolean', 'tab' => 'Khác']);

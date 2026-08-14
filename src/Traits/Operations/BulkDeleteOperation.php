@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Traits\Operations;
+namespace Movie\Core\Traits\Operations;
 
 use Illuminate\Support\Facades\Route;
 

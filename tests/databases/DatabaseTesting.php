@@ -4,18 +4,18 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Ophim\Core\Database\Seeders\CategoriesTableSeeder;
-use Ophim\Core\Database\Seeders\SettingsTableSeeder;
-use Ophim\Core\Database\Seeders\RegionsTableSeeder;
-use Ophim\Core\Database\Seeders\ThemesTableSeeder;
-use Ophim\Core\Database\Seeders\MenusTableSeeder;
-use Ophim\Core\Models\Actor;
-use Ophim\Core\Models\Category;
-use Ophim\Core\Models\Director;
-use Ophim\Core\Models\Episode;
-use Ophim\Core\Models\Movie;
-use Ophim\Core\Models\Region;
-use Ophim\Core\Models\Tag;
+use Movie\Core\Database\Seeders\CategoriesTableSeeder;
+use Movie\Core\Database\Seeders\SettingsTableSeeder;
+use Movie\Core\Database\Seeders\RegionsTableSeeder;
+use Movie\Core\Database\Seeders\ThemesTableSeeder;
+use Movie\Core\Database\Seeders\MenusTableSeeder;
+use Movie\Core\Models\Actor;
+use Movie\Core\Models\Category;
+use Movie\Core\Models\Director;
+use Movie\Core\Models\Episode;
+use Movie\Core\Models\Movie;
+use Movie\Core\Models\Region;
+use Movie\Core\Models\Tag;
 
 class DatabaseSeeder extends Seeder
 {

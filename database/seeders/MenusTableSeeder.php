@@ -1,15 +1,15 @@
 <?php
 
-namespace Ophim\Core\Database\Seeders;
+namespace Movie\Core\Database\Seeders;
 
 use Backpack\Settings\app\Models\Setting;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Ophim\Core\Models\Category;
-use Ophim\Core\Models\Menu;
-use Ophim\Core\Models\Region;
-use Ophim\Core\Models\Catalog;
-use Ophim\Core\Models\Theme;
+use Movie\Core\Models\Category;
+use Movie\Core\Models\Menu;
+use Movie\Core\Models\Region;
+use Movie\Core\Models\Catalog;
+use Movie\Core\Models\Theme;
 
 class MenusTableSeeder extends Seeder
 {

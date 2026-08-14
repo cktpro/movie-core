@@ -1,11 +1,11 @@
 <?php
 
-namespace Ophim\Core\Models;
+namespace Movie\Core\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
-use Ophim\Core\Traits\HasFactory;
+use Movie\Core\Traits\HasFactory;
 
 class Menu extends Model
 {
@@ -31,7 +31,7 @@ class Menu extends Model
      */
     public static function getTree()
     {
-        $menu = Cache::remember('ophim_menus_all', setting('site_cache_ttl', 5 * 60), function () {
+        $menu = Cache::remember('movie_menus_all', setting('site_cache_ttl', 5 * 60), function () {
             return self::all();
         })->sortBy('lft');
 

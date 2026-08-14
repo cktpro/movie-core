@@ -1,15 +1,15 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
-use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
+use Movie\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
-use Ophim\Core\Models\Episode;
+use Movie\Core\Models\Episode;
 
 /**
  * Class EpisodeCrudController
- * @package Ophim\Core\Controllers\Admin
+ * @package Movie\Core\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class EpisodeCrudController extends CrudController
@@ -24,7 +24,7 @@ class EpisodeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
-    use \Ophim\Core\Traits\Operations\BulkDeleteOperation {
+    use \Movie\Core\Traits\Operations\BulkDeleteOperation {
         bulkDelete as traitBulkDelete;
     }
 
@@ -35,7 +35,7 @@ class EpisodeCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Ophim\Core\Models\Episode::class);
+        CRUD::setModel(\Movie\Core\Models\Episode::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/episode');
         CRUD::setEntityNameStrings('Episode', 'episodes');
         $this->crud->addButtonFromModelFunction('line', 'open_episode', 'openEpisode', 'beginning');
@@ -100,7 +100,7 @@ class EpisodeCrudController extends CrudController
         $this->authorize('update', $this->crud->getEntryWithLocale($this->crud->getCurrentEntryId()));
 
 
-        CRUD::addField(['name' => 'type', 'label' => 'Type', 'type' => 'select_from_array', 'options' => config('ophim.episodes.types')]);
+        CRUD::addField(['name' => 'type', 'label' => 'Type', 'type' => 'select_from_array', 'options' => config('movie.episodes.types')]);
         CRUD::addField(['name' => 'link', 'label' => 'Nguồn phát', 'type' => 'url']);
         CRUD::addField(['name' => 'has_report', 'label' => 'Đánh dấu đang lỗi', 'type' => 'checkbox']);
         CRUD::addField(['name' => 'report_message', 'label' => 'Report message', 'type' => 'textarea']);

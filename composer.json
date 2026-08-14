@@ -1,6 +1,6 @@
 {
-    "name": "roxone/ophim-core",
-    "description": "Ophim's core features",
+    "name": "roxone/movie-core",
+    "description": "Movie CMS core features",
     "type": "library",
     "authors": [
         {
@@ -21,15 +21,15 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Ophim\\Core\\": "src/",
-            "Ophim\\Core\\Database\\Factories\\": "database/factories/",
-            "Ophim\\Core\\Database\\Seeders\\": "database/seeders/"
+            "Movie\\Core\\": "src/",
+            "Movie\\Core\\Database\\Factories\\": "database/factories/",
+            "Movie\\Core\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Ophim\\Core\\OphimServiceProvider"
+                "Movie\\Core\\MovieServiceProvider"
             ]
         }
     },

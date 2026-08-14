@@ -1,15 +1,15 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
-use Ophim\Core\Requests\RegionRequest;
-use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
+use Movie\Core\Requests\RegionRequest;
+use Movie\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Ophim\Core\Models\Region;
+use Movie\Core\Models\Region;
 
 /**
  * Class RegionCrudController
- * @package Ophim\Core\Controllers\Admin
+ * @package Movie\Core\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class RegionCrudController extends CrudController
@@ -27,7 +27,7 @@ class RegionCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Ophim\Core\Models\Region::class);
+        CRUD::setModel(\Movie\Core\Models\Region::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/region');
         CRUD::setEntityNameStrings('region', 'regions');
     }

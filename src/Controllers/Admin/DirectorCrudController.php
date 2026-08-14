@@ -1,15 +1,15 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
-use Ophim\Core\Requests\DirectorRequest;
-use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
+use Movie\Core\Requests\DirectorRequest;
+use Movie\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Ophim\Core\Models\Director;
+use Movie\Core\Models\Director;
 
 /**
  * Class DirectorCrudController
- * @package Ophim\Core\Controllers\Admin
+ * @package Movie\Core\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class DirectorCrudController extends CrudController
@@ -27,7 +27,7 @@ class DirectorCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Ophim\Core\Models\Director::class);
+        CRUD::setModel(\Movie\Core\Models\Director::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/director');
         CRUD::setEntityNameStrings('director', 'directors');
     }

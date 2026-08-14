@@ -1,15 +1,15 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
-use Ophim\Core\Requests\CategoryRequest;
-use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
+use Movie\Core\Requests\CategoryRequest;
+use Movie\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Ophim\Core\Models\Category;
+use Movie\Core\Models\Category;
 
 /**
  * Class CategoryCrudController
- * @package Ophim\Core\Controllers\Admin
+ * @package Movie\Core\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class CategoryCrudController extends CrudController
@@ -27,7 +27,7 @@ class CategoryCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Ophim\Core\Models\Category::class);
+        CRUD::setModel(\Movie\Core\Models\Category::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/category');
         CRUD::setEntityNameStrings('category', 'categories');
     }

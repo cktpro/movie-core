@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Console;
+namespace Movie\Core\Console;
 
 use Illuminate\Console\Command;
 use Spatie\Permission\Models\Role;
@@ -12,7 +12,7 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'ophim:user
+    protected $signature = 'movie:user
                             {--N|name= : The name of the new user}
                             {--E|email= : The user\'s email address}
                             {--P|password= : User\'s password}

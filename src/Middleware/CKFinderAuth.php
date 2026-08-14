@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ophim\Core\Middleware;
+namespace Movie\Core\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

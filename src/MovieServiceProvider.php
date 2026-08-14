@@ -1,42 +1,42 @@
 <?php
 
-namespace Ophim\Core;
+namespace Movie\Core;
 
 use Illuminate\Console\Scheduling\Schedule;
-use Ophim\Core\Policies\PermissionPolicy;
-use Ophim\Core\Policies\RolePolicy;
-use Ophim\Core\Policies\UserPolicy;
+use Movie\Core\Policies\PermissionPolicy;
+use Movie\Core\Policies\RolePolicy;
+use Movie\Core\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\DB;
-use Ophim\Core\Console\CreateUser;
-use Ophim\Core\Console\InstallCommand;
-use Ophim\Core\Console\GenerateMenuCommand;
-use Ophim\Core\Console\ChangeDomainEpisodeCommand;
-use Ophim\Core\Middleware\CKFinderAuth;
-use Ophim\Core\Models\Actor;
-use Ophim\Core\Models\Catalog;
-use Ophim\Core\Models\Category;
-use Ophim\Core\Models\Director;
-use Ophim\Core\Models\Episode;
-use Ophim\Core\Models\Menu;
-use Ophim\Core\Models\Movie;
-use Ophim\Core\Models\Region;
-use Ophim\Core\Models\Studio;
-use Ophim\Core\Models\Tag;
-use Ophim\Core\Models\Theme;
-use Ophim\Core\Policies\ActorPolicy;
-use Ophim\Core\Policies\CatalogPolicy;
-use Ophim\Core\Policies\CategoryPolicy;
-use Ophim\Core\Policies\CrawlSchedulePolicy;
-use Ophim\Core\Policies\DirectorPolicy;
-use Ophim\Core\Policies\EpisodePolicy;
-use Ophim\Core\Policies\MenuPolicy;
-use Ophim\Core\Policies\MoviePolicy;
-use Ophim\Core\Policies\RegionPolicy;
-use Ophim\Core\Policies\StudioPolicy;
-use Ophim\Core\Policies\TagPolicy;
+use Movie\Core\Console\CreateUser;
+use Movie\Core\Console\InstallCommand;
+use Movie\Core\Console\GenerateMenuCommand;
+use Movie\Core\Console\ChangeDomainEpisodeCommand;
+use Movie\Core\Middleware\CKFinderAuth;
+use Movie\Core\Models\Actor;
+use Movie\Core\Models\Catalog;
+use Movie\Core\Models\Category;
+use Movie\Core\Models\Director;
+use Movie\Core\Models\Episode;
+use Movie\Core\Models\Menu;
+use Movie\Core\Models\Movie;
+use Movie\Core\Models\Region;
+use Movie\Core\Models\Studio;
+use Movie\Core\Models\Tag;
+use Movie\Core\Models\Theme;
+use Movie\Core\Policies\ActorPolicy;
+use Movie\Core\Policies\CatalogPolicy;
+use Movie\Core\Policies\CategoryPolicy;
+use Movie\Core\Policies\CrawlSchedulePolicy;
+use Movie\Core\Policies\DirectorPolicy;
+use Movie\Core\Policies\EpisodePolicy;
+use Movie\Core\Policies\MenuPolicy;
+use Movie\Core\Policies\MoviePolicy;
+use Movie\Core\Policies\RegionPolicy;
+use Movie\Core\Policies\StudioPolicy;
+use Movie\Core\Policies\TagPolicy;
 
-class OphimServiceProvider extends ServiceProvider
+class MovieServiceProvider extends ServiceProvider
 {
     /**
      * Get the policies defined on the provider.
@@ -62,7 +62,7 @@ class OphimServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'ophim');
+        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'movie');
 
         $this->mergeBackpackConfigs();
 
@@ -92,7 +92,7 @@ class OphimServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views/core/', 'ophim');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views/core/', 'movie');
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views/themes', 'themes');
 
@@ -125,7 +125,7 @@ class OphimServiceProvider extends ServiceProvider
         $this->publishes($players, 'players');
 
         $this->publishes([
-            __DIR__ . '/../config/config.php' => config_path('ophim.php')
+            __DIR__ . '/../config/config.php' => config_path('movie.php')
         ], 'config');
     }
 
@@ -146,36 +146,36 @@ class OphimServiceProvider extends ServiceProvider
 
         config(['cachebusting_string' => \Composer\InstalledVersions::getPrettyVersion('backpack/crud') ?? 'unknown']);
 
-        config(['backpack.base.project_logo' => '<b>Ophim</b>CMS']);
+        config(['backpack.base.project_logo' => '<b>Movie</b>CMS']);
         config(['backpack.base.developer_name' => 'hacoidev']);
         config(['backpack.base.developer_link' => 'mailto:hacoi.dev@gmail.com']);
         config(['backpack.base.show_powered_by' => false]);
 
         // backpack/crud v7 tra cứu view field/column/button/filter tuỳ biến qua
         // config('backpack.crud.view_namespaces.*'), không tự động biết namespace
-        // 'ophim::' (đăng ký ở loadViewsFrom bên dưới, trỏ resources/views/core/).
+        // 'movie::' (đăng ký ở loadViewsFrom bên dưới, trỏ resources/views/core/).
         config(['backpack.crud.view_namespaces.fields' => array_merge(
             config('backpack.crud.view_namespaces.fields', []),
-            ['ophim::base.fields']
+            ['movie::base.fields']
         )]);
         config(['backpack.crud.view_namespaces.columns' => array_merge(
             config('backpack.crud.view_namespaces.columns', []),
-            ['ophim::base.columns', 'ophim::movies.columns']
+            ['movie::base.columns', 'movie::movies.columns']
         )]);
         config(['backpack.crud.view_namespaces.buttons' => array_merge(
             config('backpack.crud.view_namespaces.buttons', []),
-            ['ophim::crud.buttons']
+            ['movie::crud.buttons']
         )]);
         config(['backpack.crud.view_namespaces.filters' => array_merge(
             config('backpack.crud.view_namespaces.filters', []),
-            ['ophim::crud.filters']
+            ['movie::crud.filters']
         )]);
     }
 
     protected function mergeCkfinderConfigs()
     {
         config(['ckfinder.authentication' => CKFinderAuth::class]);
-        config(['ckfinder.backends.default' => config('ophim.ckfinder.backends')]);
+        config(['ckfinder.backends.default' => config('movie.ckfinder.backends')]);
     }
 
     protected function mergePolicies()

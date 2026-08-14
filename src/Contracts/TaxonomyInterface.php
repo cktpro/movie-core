@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Contracts;
+namespace Movie\Core\Contracts;
 
 interface TaxonomyInterface extends HasUrlInterface
 {

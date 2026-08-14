@@ -1,8 +1,8 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
-use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
+use Movie\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Settings\app\Models\Setting;
 use Illuminate\Http\Request;
@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL as LARURL;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
-use Ophim\Core\Models\Actor;
-use Ophim\Core\Models\Catalog;
-use Ophim\Core\Models\Category;
-use Ophim\Core\Models\Director;
-use Ophim\Core\Models\Movie;
-use Ophim\Core\Models\Region;
-use Ophim\Core\Models\Studio;
-use Ophim\Core\Models\Tag;
+use Movie\Core\Models\Actor;
+use Movie\Core\Models\Catalog;
+use Movie\Core\Models\Category;
+use Movie\Core\Models\Director;
+use Movie\Core\Models\Movie;
+use Movie\Core\Models\Region;
+use Movie\Core\Models\Studio;
+use Movie\Core\Models\Tag;
 use Prologue\Alerts\Facades\Alert;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\SitemapIndex;
@@ -60,7 +60,7 @@ class SiteMapController extends CrudController
 
     public function render_styles()
     {
-        $xml = view('ophim::sitemap/styles', [
+        $xml = view('movie::sitemap/styles', [
             'title' => Setting::get('site_homepage_title'),
             'domain' => LARURL::to('/')
         ])->render();

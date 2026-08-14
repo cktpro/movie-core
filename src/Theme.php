@@ -1,9 +1,9 @@
 <?php
 
-namespace Ophim\Core;
+namespace Movie\Core;
 
 use Exception;
-use Ophim\Core\Models\Theme as ThemeModel;
+use Movie\Core\Models\Theme as ThemeModel;
 
 class Theme
 {

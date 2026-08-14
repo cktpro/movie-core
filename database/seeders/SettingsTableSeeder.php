@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Database\Seeders;
+namespace Movie\Core\Database\Seeders;
 
 use Backpack\Settings\app\Models\Setting;
 use Illuminate\Database\Seeder;
@@ -85,7 +85,7 @@ class SettingsTableSeeder extends Seeder
                     'type' => 'text',
                     'tab' => 'General'
                 ]),
-                'value' => 'Ophim.TV',
+                'value' => 'Movie.TV',
                 'active'      => 0,
             ],
             [
@@ -120,7 +120,7 @@ class SettingsTableSeeder extends Seeder
                     'type' => 'textarea',
                     'tab' => 'General'
                 ]),
-                'value' => 'Ophim.TV',
+                'value' => 'Movie.TV',
                 'active'      => 0,
             ],
             [
@@ -132,7 +132,7 @@ class SettingsTableSeeder extends Seeder
                     'type' => 'textarea',
                     'tab' => 'General'
                 ]),
-                'value' => 'Ophim.TV',
+                'value' => 'Movie.TV',
                 'active'      => 0,
             ],
             [

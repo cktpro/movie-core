@@ -1,15 +1,15 @@
 <?php
 
-namespace Ophim\Core\Models;
+namespace Movie\Core\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\Settings\app\Models\Setting;
-use Ophim\Core\Contracts\HasUrlInterface;
+use Movie\Core\Contracts\HasUrlInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
-use Ophim\Core\Contracts\SeoInterface;
-use Ophim\Core\Traits\HasFactory;
-use Ophim\Core\Traits\HasTitle;
+use Movie\Core\Contracts\SeoInterface;
+use Movie\Core\Traits\HasFactory;
+use Movie\Core\Traits\HasTitle;
 use Illuminate\Support\Str;
 use Artesaos\SEOTools\Facades\JsonLdMulti;
 use Artesaos\SEOTools\Facades\OpenGraph;

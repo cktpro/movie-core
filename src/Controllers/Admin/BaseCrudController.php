@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Backpack\CRUD\app\Http\Controllers\CrudController as BackpackCrudController;

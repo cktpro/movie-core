@@ -97,7 +97,7 @@ $episodes = collect(old('episodes', isset($entry) ? $entry->episodes : []));
                                         <td>
                                             <select name="episodes[{{ $index }}][type]"
                                                 data-attr-name="type" class="form-control">
-                                                @foreach (config('ophim.episodes.types', []) as $key => $name)
+                                                @foreach (config('movie.episodes.types', []) as $key => $name)
                                                     <option value="{{ $key }}"
                                                         @if (($episode['type'] ?? $episode->type) == $key) selected @endif>
                                                         {{ $name }}</option>
@@ -168,7 +168,7 @@ $episodes = collect(old('episodes', isset($entry) ? $entry->episodes : []));
                                             value="tap-1" class="form-control" data-attr-name="slug"></td>
                                     <td>
                                         <select name="episodes[0][type]" data-attr-name="type" class="form-control">
-                                            @foreach (config('ophim.episodes.types', []) as $key => $name)
+                                            @foreach (config('movie.episodes.types', []) as $key => $name)
                                                 <option value="{{ $key }}">
                                                     {{ $name }}</option>
                                             @endforeach
@@ -280,7 +280,7 @@ $episodes = collect(old('episodes', isset($entry) ? $entry->episodes : []));
                             class="form-control" data-attr-name="slug"></td>
                     <td>
                         <select data-attr-name="type" class="form-control">
-                            @foreach (config('ophim.episodes.types', []) as $key => $name)
+                            @foreach (config('movie.episodes.types', []) as $key => $name)
                                 <option value="{{ $key }}" ${'{{$key}}' == type ? 'selected' : ''}>{{ $name }}</option>
                             @endforeach
                         </select>

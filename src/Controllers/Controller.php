@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Controllers;
+namespace Movie\Core\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

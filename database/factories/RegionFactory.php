@@ -1,9 +1,9 @@
 <?php
 
-namespace Ophim\Core\Database\Factories;
+namespace Movie\Core\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Ophim\Core\Models\Region;
+use Movie\Core\Models\Region;
 use Illuminate\Support\Str;
 
 class RegionFactory extends Factory

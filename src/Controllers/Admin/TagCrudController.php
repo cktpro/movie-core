@@ -1,11 +1,11 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
-use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
+use Movie\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Ophim\Core\Models\Tag;
-use Ophim\Core\Requests\TagRequest;
+use Movie\Core\Models\Tag;
+use Movie\Core\Requests\TagRequest;
 
 /**
  * Class TagCrudController
@@ -27,7 +27,7 @@ class TagCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Ophim\Core\Models\Tag::class);
+        CRUD::setModel(\Movie\Core\Models\Tag::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/tag');
         CRUD::setEntityNameStrings('tag', 'tags');
     }

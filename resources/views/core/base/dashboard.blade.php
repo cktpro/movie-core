@@ -9,7 +9,7 @@
             'content' =>
                 '
                 Phiên bản: <span class="text-danger text-break">' .
-                config('ophim.version') .
+                config('movie.version') .
                 '</span><br/>
                 Trang chủ: <a href="https://ophimcms.com">OPhimCMS.Com</a><br/>
                 Dữ liệu phim miễn phí: <a href="https://ophim5.cc">Ổ Phim</a>

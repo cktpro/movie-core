@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Models;
+namespace Movie\Core\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;

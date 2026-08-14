@@ -1,15 +1,15 @@
 <?php
 
-namespace Ophim\Core\Controllers\Admin;
+namespace Movie\Core\Controllers\Admin;
 
-use Ophim\Core\Requests\CatalogRequest;
-use Ophim\Core\Controllers\Admin\BaseCrudController as CrudController;
+use Movie\Core\Requests\CatalogRequest;
+use Movie\Core\Controllers\Admin\BaseCrudController as CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Ophim\Core\Models\Catalog;
+use Movie\Core\Models\Catalog;
 
 /**
  * Class CatalogCrudController
- * @package Ophim\Core\Controllers\Admin
+ * @package Movie\Core\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class CatalogCrudController extends CrudController
@@ -27,7 +27,7 @@ class CatalogCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Ophim\Core\Models\Catalog::class);
+        CRUD::setModel(\Movie\Core\Models\Catalog::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/catalog');
         CRUD::setEntityNameStrings('catalog', 'catalogs');
     }

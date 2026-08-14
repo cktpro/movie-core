@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'version' => explode('@', \Composer\InstalledVersions::getPrettyVersion('roxone/ophim-core') ?? '0')[0],
+    'version' => explode('@', \Composer\InstalledVersions::getPrettyVersion('roxone/movie-core') ?? '0')[0],
     'episodes' => [
         'types' => [
             'embed' => 'Nhúng',

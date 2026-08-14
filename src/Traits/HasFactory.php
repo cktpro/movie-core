@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Traits;
+namespace Movie\Core\Traits;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory as BaseFactory;
 use Illuminate\Support\Str;

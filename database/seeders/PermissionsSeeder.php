@@ -1,6 +1,6 @@
 <?php
 
-namespace Ophim\Core\Database\Seeders;
+namespace Movie\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

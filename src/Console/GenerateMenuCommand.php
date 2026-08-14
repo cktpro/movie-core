@@ -1,9 +1,9 @@
 <?php
 
-namespace Ophim\Core\Console;
+namespace Movie\Core\Console;
 
 use Illuminate\Console\Command;
-use Ophim\Core\Database\Seeders\MenusTableSeeder;
+use Movie\Core\Database\Seeders\MenusTableSeeder;
 
 class GenerateMenuCommand extends Command
 {
@@ -12,7 +12,7 @@ class GenerateMenuCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ophim:menu:generate';
+    protected $signature = 'movie:menu:generate';
 
     /**
      * The console command description.

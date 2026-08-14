@@ -1,10 +1,10 @@
 <?php
 
-namespace Ophim\Core\Database\Seeders;
+namespace Movie\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Ophim\Core\Models\Catalog;
+use Movie\Core\Models\Catalog;
 
 class CatalogsTableSeeder extends Seeder
 {

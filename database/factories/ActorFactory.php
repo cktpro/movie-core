@@ -1,9 +1,9 @@
 <?php
 
-namespace Ophim\Core\Database\Factories;
+namespace Movie\Core\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Ophim\Core\Models\Actor;
+use Movie\Core\Models\Actor;
 use Illuminate\Support\Str;
 
 class ActorFactory extends Factory

@@ -1,9 +1,9 @@
 <?php
 
-namespace Ophim\Core\Requests;
+namespace Movie\Core\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Ophim\Core\Rules\UniqueName;
+use Movie\Core\Rules\UniqueName;
 
 class DirectorRequest extends FormRequest
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Ophim\Core\Database\Seeders;
+namespace Movie\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Ophim\Core\Models\Category;
-use Ophim\Core\Models\Region;
+use Movie\Core\Models\Category;
+use Movie\Core\Models\Region;
 
 class RegionsTableSeeder extends Seeder
 {

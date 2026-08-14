@@ -1,11 +1,11 @@
 <?php
 
-namespace Ophim\Core\Models;
+namespace Movie\Core\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;
-use Ophim\Core\Traits\HasFactory;
+use Movie\Core\Traits\HasFactory;
 
 class Theme extends Model
 {

@@ -675,7 +675,7 @@ class SettingsTableSeeder extends Seeder
         ];
 
         foreach ($systems as $index => $setting) {
-            $result = Setting::firstOrCreate(collect($setting)->only('key')->toArray(), collect($setting)->except('key')->toArray());
+            $result = $this->firstOrCreateSetting($setting);
 
             if (!$result) {
                 $this->command->info("Insert failed at record $index");
@@ -685,8 +685,7 @@ class SettingsTableSeeder extends Seeder
         }
 
         foreach ($generals as $index => $setting) {
-            $result = Setting::firstOrCreate(collect($setting)->only('key')->toArray(), collect($setting)
-                ->merge(['group' => 'generals'])->except('key')->toArray());
+            $result = $this->firstOrCreateSetting(array_merge($setting, ['group' => 'generals']));
 
             if (!$result) {
                 $this->command->info("Insert failed at record $index");
@@ -696,7 +695,7 @@ class SettingsTableSeeder extends Seeder
         }
 
         foreach ($metas as $index => $setting) {
-            $result = Setting::firstOrCreate(collect($setting)->only('key')->toArray(), collect($setting)->merge(['group' => 'metas'])->except('key')->toArray());
+            $result = $this->firstOrCreateSetting(array_merge($setting, ['group' => 'metas']));
 
             if (!$result) {
                 $this->command->info("Insert failed at record $index");
@@ -706,7 +705,7 @@ class SettingsTableSeeder extends Seeder
         }
 
         foreach ($players as $index => $setting) {
-            $result = Setting::firstOrCreate(collect($setting)->only('key')->toArray(), collect($setting)->merge(['group' => 'jwplayer'])->except('key')->toArray());
+            $result = $this->firstOrCreateSetting(array_merge($setting, ['group' => 'jwplayer']));
 
             if (!$result) {
                 $this->command->info("Insert failed at record $index");
@@ -716,7 +715,7 @@ class SettingsTableSeeder extends Seeder
         }
 
         foreach ($others as $index => $setting) {
-            $result = Setting::firstOrCreate(collect($setting)->only('key')->toArray(), collect($setting)->merge(['group' => 'others'])->except('key')->toArray());
+            $result = $this->firstOrCreateSetting(array_merge($setting, ['group' => 'others']));
 
             if (!$result) {
                 $this->command->info("Insert failed at record $index");
@@ -729,5 +728,27 @@ class SettingsTableSeeder extends Seeder
         $all_settings = array_merge($generals, $metas, $players, $systems, $others);
         $all_settings = array_map( function( $a ) { return $a['key']; }, $all_settings );
         Setting::whereIn('group', ['generals', 'metas', 'players', 'systems', 'others'])->whereNotIn('key', $all_settings)->delete();
+    }
+
+    /**
+     * Model Setting thật của backpack/settings chỉ có $fillable = ['value'], nên
+     * Setting::firstOrCreate($onlyKey, $restCuaAttrs) sẽ lặng lẽ bỏ qua mọi cột
+     * khác (mass assignment bị chặn) và tạo ra dòng rỗng chỉ có timestamps. Gán
+     * trực tiếp từng thuộc tính để bỏ qua giới hạn $fillable.
+     */
+    protected function firstOrCreateSetting(array $attributes): Setting
+    {
+        $entry = Setting::where('key', $attributes['key'])->first();
+        if ($entry) {
+            return $entry;
+        }
+
+        $entry = new Setting();
+        foreach ($attributes as $column => $value) {
+            $entry->{$column} = $value;
+        }
+        $entry->save();
+
+        return $entry;
     }
 }

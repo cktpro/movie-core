@@ -8,6 +8,7 @@ use Movie\Core\Policies\RolePolicy;
 use Movie\Core\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Movie\Core\Console\CreateUser;
 use Movie\Core\Console\InstallCommand;
 use Movie\Core\Console\GenerateMenuCommand;
@@ -86,6 +87,7 @@ class MovieServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
 
         $this->app->booted(function () {
+            $this->registerAdminThemeViewOverrides();
             $this->loadThemeRoutes();
             $this->loadScheduler();
         });
@@ -110,9 +112,14 @@ class MovieServiceProvider extends ServiceProvider
 
     protected function publishFiles()
     {
+        // Đích publish phải là resources/views/vendor/<namespace>/ thì Laravel mới coi là
+        // bản ghi đè. Namespace của package là 'movie' (loadViewsFrom bên dưới), nên đích
+        // đúng là views/vendor/movie/ — trước đây vẫn để 'hacoidev' theo tên cũ, khiến mọi
+        // file đã publish nằm ở chỗ không ai đọc tới và không ghi đè được gì.
+        // Đây cũng là thư mục registerAdminThemeViewOverrides() cắm vào namespace theme.
         $backpack_menu_contents_view = [
-            __DIR__ . '/../resources/views/core/base/'  => resource_path('views/vendor/hacoidev/base/'),
-            __DIR__ . '/../resources/views/core/crud/'      => resource_path('views/vendor/hacoidev/crud/'),
+            __DIR__ . '/../resources/views/core/base/' => resource_path('views/vendor/movie/base/'),
+            __DIR__ . '/../resources/views/core/crud/' => resource_path('views/vendor/movie/crud/'),
         ];
 
         $players = [
@@ -218,6 +225,41 @@ class MovieServiceProvider extends ServiceProvider
             'seotools.json-ld.defaults.description' => setting('site_meta_description'),
             'seotools.json-ld.defaults.images' => setting('site_meta_image'),
         ]);
+    }
+
+    /**
+     * Cho phép các view giao diện admin của movie-core ghi đè view cùng tên của theme
+     * Backpack (backpack/theme-coreuiv2): dashboard, inc/sidebar_content (menu trái),
+     * inc/main_header, inc/topbar_right_content (menu "Delete All Cache").
+     *
+     * Vì sao cần: helper backpack_view($view) của Backpack v7 tra theo thứ tự
+     *   1. config('backpack.ui.view_namespace')  -> backpack.theme-coreuiv2::$view
+     *   2. backpack_theme_config('view_namespace_fallback')
+     *   3. backpack.ui::$view
+     * nên nó KHÔNG bao giờ nhìn tới namespace movie::. Bản fork hacoidev/crud dùng
+     * trước khi nâng Laravel 12 (Backpack 4.1) không có tầng theme này — backpack_view()
+     * hồi đó trỏ thẳng vào view của package, nên dashboard/sidebar tuỳ biến chạy bình
+     * thường. Sau khi chuyển sang backpack/crud v7 + theme, toàn bộ chúng bị theme
+     * thay thế: dashboard thành trang trống mặc định và menu trái rỗng hoàn toàn.
+     *
+     * Cách xử lý: chèn thư mục view của package lên ĐẦU danh sách đường dẫn của
+     * namespace theme, nên view nào package có thì package thắng, view nào không có
+     * thì rơi về theme như cũ. Không ảnh hưởng field/column/button/filter vì những
+     * thứ đó tra qua config('backpack.crud.view_namespaces.*') chứ không qua namespace
+     * theme (xem Backpack\CRUD\ViewNamespaces::getFromConfigFor()).
+     */
+    protected function registerAdminThemeViewOverrides()
+    {
+        $namespace = rtrim((string) config('backpack.ui.view_namespace'), ':');
+
+        if ($namespace === '') {
+            return;
+        }
+
+        // Đường dẫn nào prepend sau thì đứng trước, nên package đi trước rồi mới tới
+        // thư mục cho người dùng tự ghi đè — kết quả: người dùng > package > theme.
+        View::prependNamespace($namespace, __DIR__ . '/../resources/views/core/base');
+        View::prependNamespace($namespace, resource_path('views/vendor/movie/base'));
     }
 
     protected function loadThemeRoutes()

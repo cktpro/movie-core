@@ -139,7 +139,25 @@ class ThemeManagementController extends CrudController
 
         $id = $this->crud->getCurrentEntryId() ?? $id;
 
-        $this->data['entry'] = $this->crud->getEntryWithLocale($id);
+        $entry = $this->crud->getEntryWithLocale($id);
+
+        // Bảng themes có thể còn dòng của theme mà site này KHÔNG cài (vd 'ripple' ở
+        // hhphim): migration đổi tên package chạy cho mọi site dùng chung core nên để
+        // lại dòng đó. Không có package thì không có schema option nào trong
+        // config('themes'), form sửa rỗng nghĩa — nói thẳng ra thay vì dựng form lỗi.
+        if (empty($entry->options)) {
+            Alert::warning(sprintf(
+                'Giao diện "%s" (%s) chưa được cài ở site này nên không có tuỳ chọn nào để sửa. '
+                    . 'Cài bằng composer require %s trước, hoặc xoá dòng này nếu không dùng.',
+                $entry->name,
+                $entry->package_name,
+                $entry->package_name
+            ))->flash();
+
+            return redirect(backpack_url('theme'));
+        }
+
+        $this->data['entry'] = $entry;
         $this->crud->setOperationSetting('fields', $this->getUpdateFields());
 
         $this->data['crud'] = $this->crud;
@@ -196,6 +214,15 @@ class ThemeManagementController extends CrudController
         $options = $entry->value ?? [];
 
         foreach ($options as $k => $v) {
+            // Chỉ nạp giá trị cho field CÓ trong schema của theme. Gán thẳng
+            // $fields[$k]['value'] sẽ đẻ ra "field" chỉ có mỗi value, không có
+            // name/type — blade render field đó là chết với "Undefined array key
+            // type". Xảy ra khi theme chưa được cài (schema rỗng) hoặc khi schema
+            // đã bỏ bớt option mà giá trị cũ vẫn còn trong DB.
+            if (! array_key_exists($k, $fields)) {
+                continue;
+            }
+
             $fields[$k]['value'] = $v;
         }
 

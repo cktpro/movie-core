@@ -68,110 +68,18 @@ class MovieCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number','tab'=>'Thông tin phim']);
          */
 
-        // backpack/crud v7 (bản miễn phí) chặn hẳn tính năng Filter, chỉ mở khi cài
-        // package trả phí backpack/pro (xem CrudFilter::__construct()). Bọc lại để
-        // trang danh sách phim còn dùng được (không có bộ lọc) thay vì crash hẳn 500,
-        // trong lúc chờ quyết định mua backpack/pro hoặc viết lại bộ lọc thủ công.
-        if (backpack_pro()) {
-        $this->crud->addFilter([
-            'name'  => 'status',
-            'type'  => 'select2',
-            'label' => 'Tình trạng'
-        ], function () {
-            return [
-                'trailer' => 'Sắp chiếu',
-                'ongoing' => 'Đang chiếu',
-                'completed' => 'Hoàn thành'
-            ];
-        }, function ($val) {
-            $this->crud->addClause('where', 'status', $val);
-        });
+        // Bộ lọc thủ công — thay cho API addFilter() của Backpack (từ v5 addFilter() chỉ
+        // chạy khi có package trả phí backpack/pro; bản fork hacoidev/crud dùng trước khi
+        // nâng Laravel 12 là Backpack 4.1, hồi đó filter còn miễn phí).
+        //
+        // Cách hoạt động: form GET thường (view movie::crud.buttons.movie_filters) nạp lại
+        // trang kèm query string. Không cần JS đồng bộ URL vì DataTables của Backpack v7 tự
+        // ghép query string hiện tại vào URL ajax — xem crud/components/datatable/
+        // datatable_logic.blade.php: `config.urlStart + '/search' + searchParams`. Nhờ vậy
+        // bộ lọc vẫn đúng khi phân trang / sắp xếp / tìm kiếm.
+        $this->applyMovieFilters();
 
-        $this->crud->addFilter([
-            'name'  => 'type',
-            'type'  => 'select2',
-            'label' => 'Định dạng'
-        ], function () {
-            return [
-                'single' => 'Phim lẻ',
-                'series' => 'Phim bộ'
-            ];
-        }, function ($val) {
-            $this->crud->addClause('where', 'type', $val);
-        });
-
-        $this->crud->addFilter([
-            'name'  => 'category_id',
-            'type'  => 'select2',
-            'label' => 'Thể loại'
-        ], function () {
-            return Category::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
-            $this->crud->query = $this->crud->query->whereHas('categories', function ($query) use ($value) {
-                $query->where('id', $value);
-            });
-        });
-
-        $this->crud->addFilter([
-            'name'  => 'region_id',
-            'type'  => 'select2',
-            'label' => 'Quốc gia'
-        ], function () {
-            return Region::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
-            $this->crud->query = $this->crud->query->whereHas('regions', function ($query) use ($value) {
-                $query->where('id', $value);
-            });
-        });
-
-        $this->crud->addFilter([
-            'name'  => 'other',
-            'type'  => 'select2',
-            'label' => 'Thông tin'
-        ], function () {
-            return [
-                'thumb_url-' => 'Thiếu ảnh thumb',
-                'poster_url-' => 'Thiếu ảnh poster',
-                'trailer_url-' => 'Thiếu trailer',
-                'language-vietsub' => 'Vietsub',
-                'language-thuyết minh' => 'Thuyết minh',
-                'language-lồng tiếng' => 'Lồng tiếng',
-            ];
-        }, function ($values) {
-            $value = explode("-", $values);
-            $field = $value[0];
-            $val = $value[1];
-            if ($field === 'language') {
-                $this->crud->query->where($field, 'like', '%' . $val . '%');
-            } else {
-                $this->crud->query->where($field, '')->orWhere($field, NULL)->orWhere($field, 'like', '%img.ophim%')->orWhere($field, 'like', '%img.hiephanhthienha%');
-            }
-        });
-
-        $this->crud->addFilter(
-            [
-                'type'  => 'simple',
-                'name'  => 'is_recommended',
-                'label' => 'Đề cử'
-            ],
-            false,
-            function () {
-                $this->crud->addClause('where', 'is_recommended', true);
-            }
-        );
-
-        $this->crud->addFilter(
-            [
-                'type'  => 'simple',
-                'name'  => 'is_shown_in_theater',
-                'label' => 'Chiếu rạp'
-            ],
-            false,
-            function () {
-                $this->crud->addClause('where', 'is_shown_in_theater', true);
-            }
-        );
-        } // end if (backpack_pro())
+        CRUD::addButtonFromView('top', 'movie_filters', 'movie_filters', 'beginning');
 
         CRUD::addButtonFromModelFunction('line', 'open_view', 'openView', 'beginning');
 
@@ -201,6 +109,110 @@ class MovieCrudController extends CrudController
         CRUD::addColumn(['name' => 'updated_at', 'label' => 'Cập nhật lúc', 'type' => 'datetime', 'format' => 'DD/MM/YYYY HH:mm:ss']);
         // CRUD::addColumn(['name' => 'user_name', 'label' => 'Cập nhật bởi', 'type' => 'text',]);
         CRUD::addColumn(['name' => 'view_total', 'label' => 'Lượt xem', 'type' => 'number',]);
+    }
+
+    /**
+     * Các lựa chọn của bộ lọc thủ công. Dùng chung cho việc dựng form (view) và
+     * kiểm tra giá trị hợp lệ (controller) để hai bên không lệch nhau.
+     */
+    public static function movieFilterOptions()
+    {
+        return [
+            'status' => [
+                'label'   => 'Tình trạng',
+                'options' => [
+                    'trailer'   => 'Sắp chiếu',
+                    'ongoing'   => 'Đang chiếu',
+                    'completed' => 'Hoàn thành',
+                ],
+            ],
+            'type' => [
+                'label'   => 'Định dạng',
+                'options' => [
+                    'single' => 'Phim lẻ',
+                    'series' => 'Phim bộ',
+                ],
+            ],
+            'category_id' => [
+                'label'   => 'Thể loại',
+                'options' => Category::orderBy('name')->pluck('name', 'id')->toArray(),
+            ],
+            'region_id' => [
+                'label'   => 'Quốc gia',
+                'options' => Region::orderBy('name')->pluck('name', 'id')->toArray(),
+            ],
+            'other' => [
+                'label'   => 'Thông tin',
+                'options' => [
+                    'thumb_url-'          => 'Thiếu ảnh thumb',
+                    'poster_url-'         => 'Thiếu ảnh poster',
+                    'trailer_url-'        => 'Thiếu trailer',
+                    'language-vietsub'    => 'Vietsub',
+                    'language-thuyết minh' => 'Thuyết minh',
+                    'language-lồng tiếng'  => 'Lồng tiếng',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Đọc query string và gắn điều kiện vào query của trang danh sách.
+     *
+     * Chạy trong setupListOperation() nên áp dụng cho cả lần nạp trang lẫn request
+     * ajax /search của DataTables (request ajax mang theo cùng query string).
+     */
+    protected function applyMovieFilters()
+    {
+        $request = request();
+
+        if ($val = $request->query('status')) {
+            $this->crud->addClause('where', 'status', $val);
+        }
+
+        if ($val = $request->query('type')) {
+            $this->crud->addClause('where', 'type', $val);
+        }
+
+        if ($val = $request->query('category_id')) {
+            $this->crud->addClause('whereHas', 'categories', function ($query) use ($val) {
+                $query->where('id', $val);
+            });
+        }
+
+        if ($val = $request->query('region_id')) {
+            $this->crud->addClause('whereHas', 'regions', function ($query) use ($val) {
+                $query->where('id', $val);
+            });
+        }
+
+        if ($val = $request->query('other')) {
+            [$field, $sub] = array_pad(explode('-', $val, 2), 2, '');
+
+            if ($field === 'language') {
+                $this->crud->addClause('where', 'language', 'like', '%' . $sub . '%');
+            } elseif (in_array($field, ['thumb_url', 'poster_url', 'trailer_url'], true)) {
+                // Bọc trong closure để nhóm các orWhere lại. Bản cũ nối orWhere thẳng vào
+                // query gốc nên khi kết hợp với bộ lọc khác, các điều kiện kia bị OR ra
+                // ngoài và trả về sai kết quả.
+                //
+                // $field cũng được kiểm tra qua danh sách trắng: bản cũ lấy thẳng tên cột
+                // từ query string đưa vào where(), tức người dùng chỉ định được cột tuỳ ý.
+                $this->crud->addClause('where', function ($query) use ($field) {
+                    $query->where($field, '')
+                        ->orWhereNull($field)
+                        ->orWhere($field, 'like', '%img.ophim%')
+                        ->orWhere($field, 'like', '%img.hiephanhthienha%');
+                });
+            }
+        }
+
+        if ($request->query('is_recommended')) {
+            $this->crud->addClause('where', 'is_recommended', true);
+        }
+
+        if ($request->query('is_shown_in_theater')) {
+            $this->crud->addClause('where', 'is_shown_in_theater', true);
+        }
     }
 
     /**

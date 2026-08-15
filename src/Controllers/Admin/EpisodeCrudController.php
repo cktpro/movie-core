@@ -58,10 +58,11 @@ class EpisodeCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number','tab'=>'Thông tin phim']);
          */
-        // enableExportButtons() chỉ dùng được với backpack/pro (package trả phí) từ v7.
-        if (backpack_pro()) {
-            $this->crud->enableExportButtons();
-        }
+        // Nút xuất CSV thủ công, thay cho enableExportButtons() của Backpack (từ v5 chỉ
+        // chạy khi có package trả phí backpack/pro; bản fork hacoidev/crud dùng trước khi
+        // nâng Laravel 12 là Backpack 4.1, hồi đó tính năng này còn miễn phí).
+        CRUD::addButtonFromView('top', 'episode_export', 'episode_export', 'end');
+
         $this->crud->addClause('where', 'has_report', true);
 
         CRUD::addColumn([
@@ -76,6 +77,49 @@ class EpisodeCrudController extends CrudController
         CRUD::addColumn(['name' => 'name', 'label' => 'Tập', 'type' => 'text']);
         CRUD::addColumn(['name' => 'type', 'label' => 'Type', 'type' => 'text']);
         CRUD::addColumn(['name' => 'link', 'label' => 'Link', 'type' => 'textarea']);
+    }
+
+    /**
+     * Xuất danh sách tập phim bị báo lỗi ra CSV.
+     *
+     * Thay cho enableExportButtons() của Backpack (tính năng trả phí từ v5). Dùng
+     * streamed response + chunk để không nạp hết bảng episodes vào bộ nhớ.
+     */
+    public function exportCsv()
+    {
+        $this->authorize('browse', Episode::class);
+
+        $ten = 'tap-phim-bao-loi-' . now()->format('Ymd-His') . '.csv';
+
+        return response()->streamDownload(function () {
+            $out = fopen('php://output', 'w');
+
+            // BOM UTF-8 để Excel không hiển thị tiếng Việt thành ký tự lạ.
+            fwrite($out, "\xEF\xBB\xBF");
+
+            fputcsv($out, ['ID', 'Phim', 'Tập', 'Type', 'Link', 'Nội dung báo lỗi', 'Cập nhật lúc']);
+
+            Episode::with('movie')
+                ->where('has_report', true)
+                ->orderBy('id')
+                ->chunk(500, function ($episodes) use ($out) {
+                    foreach ($episodes as $episode) {
+                        fputcsv($out, [
+                            $episode->id,
+                            optional($episode->movie)->name,
+                            $episode->name,
+                            $episode->type,
+                            $episode->link,
+                            $episode->report_message,
+                            optional($episode->updated_at)->format('d/m/Y H:i:s'),
+                        ]);
+                    }
+                });
+
+            fclose($out);
+        }, $ten, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]);
     }
 
     /**

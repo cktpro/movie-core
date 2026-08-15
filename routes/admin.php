@@ -31,6 +31,10 @@ Route::group([
     Route::crud('studio', 'StudioCrudController');
     Route::crud('tag', 'TagCrudController');
     Route::crud('menu', 'MenuCrudController');
+    // Phải khai báo trước Route::crud('episode', ...) để không bị nuốt bởi các route
+    // có tham số của nó. Thay cho enableExportButtons() của Backpack (chỉ chạy khi có
+    // package trả phí backpack/pro từ v5).
+    Route::get('episode/export-csv', 'EpisodeCrudController@exportCsv')->name('episode.exportCsv');
     Route::crud('episode', 'EpisodeCrudController');
     Route::crud('theme', 'ThemeManagementController');
     Route::crud('plugin', 'PluginController');

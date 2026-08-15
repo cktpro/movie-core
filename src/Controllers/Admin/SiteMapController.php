@@ -46,7 +46,19 @@ class SiteMapController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::addField(['name' => 'sitemap', 'type' => 'custom_html', 'value' => 'Sitemap sẽ được lưu tại đường dẫn: <i>' . url('/sitemap.xml') . '</i>']);
+        // CRUD này không gắn với model nào (setup() chỉ setRoute + setEntityNameStrings),
+        // nên phải khai báo 'entity' => false. Backpack v7 gọi makeSureFieldHasEntity()
+        // trong addField(): nếu 'entity' chưa được set, nó tự đoán quan hệ bằng cách gọi
+        // $model->isRelation(...) trên getModel() — mà getModel() ở đây trả về chuỗi tên
+        // model mặc định, gây "Call to a member function isRelation() on string" (500).
+        // Backpack 4.1 (bản fork hacoidev/crud dùng trước khi nâng Laravel 12) không có
+        // bước đoán này nên không cần khai báo.
+        CRUD::addField([
+            'name'   => 'sitemap',
+            'type'   => 'custom_html',
+            'entity' => false,
+            'value'  => 'Sitemap sẽ được lưu tại đường dẫn: <i>' . url('/sitemap.xml') . '</i>',
+        ]);
         $this->crud->addSaveAction([
             'name' => 'save_and_new',
             'redirect' => function ($crud, $request, $itemId) {

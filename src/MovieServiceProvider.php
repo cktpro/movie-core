@@ -13,6 +13,7 @@ use Movie\Core\Console\CreateUser;
 use Movie\Core\Console\InstallCommand;
 use Movie\Core\Console\GenerateMenuCommand;
 use Movie\Core\Console\ChangeDomainEpisodeCommand;
+use Movie\Core\Console\GenerateSitemapCommand;
 use Movie\Core\Middleware\CKFinderAuth;
 use Movie\Core\Models\Actor;
 use Movie\Core\Models\Catalog;
@@ -105,6 +106,7 @@ class MovieServiceProvider extends ServiceProvider
             CreateUser::class,
             GenerateMenuCommand::class,
             ChangeDomainEpisodeCommand::class,
+            GenerateSitemapCommand::class,
         ]);
 
         $this->bootSeoDefaults();
@@ -287,5 +289,13 @@ class MovieServiceProvider extends ServiceProvider
         $schedule->call(function () {
             DB::table('movies')->update(['view_month' => 0]);
         })->monthly();
+
+        // Sitemap là file tĩnh trong public/, trước đây chỉ sinh khi có người
+        // bấm nút trong admin nên nó cũ dần trong lúc crawler thêm phim mỗi
+        // ngày. withoutOverlapping() phòng trường hợp site nhiều phim khiến
+        // lần chạy trước còn chưa xong.
+        $schedule->command('movie:sitemap:generate')
+            ->dailyAt('03:00')
+            ->withoutOverlapping();
     }
 }

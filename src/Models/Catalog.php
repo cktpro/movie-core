@@ -8,6 +8,9 @@ use Movie\Core\Contracts\TaxonomyInterface;
 use Illuminate\Database\Eloquent\Model;
 use Movie\Core\Contracts\SeoInterface;
 use Movie\Core\Traits\HasFactory;
+use Movie\Core\Traits\HasTitle;
+use Movie\Core\Traits\HasDescription;
+use Movie\Core\Traits\HasKeywords;
 use Movie\Core\Traits\Sluggable;
 use Illuminate\Support\Str;
 use Artesaos\SEOTools\Facades\JsonLdMulti;
@@ -20,6 +23,9 @@ class Catalog extends Model implements TaxonomyInterface, SeoInterface
     use CrudTrait;
     use Sluggable;
     use HasFactory;
+    use HasTitle;
+    use HasDescription;
+    use HasKeywords;
 
     /*
     |--------------------------------------------------------------------------
@@ -58,11 +64,30 @@ class Catalog extends Model implements TaxonomyInterface, SeoInterface
         return route('types.movies.index', $params);
     }
 
+    protected function titlePattern(): string
+    {
+        return Setting::get('site_catalog_title', '');
+    }
+
+    protected function descriptionPattern(): string
+    {
+        return Setting::get('site_catalog_des', '');
+    }
+
+    protected function keywordsPattern(): string
+    {
+        return Setting::get('site_catalog_key', '');
+    }
+
     public function generateSeoTags()
     {
-        $seo_title = $this->seo_title;
-        $seo_des = $this->seo_des;
-        $seo_key = $this->seo_key;
+        // Bỏ trống ô SEO của bản ghi thì rơi về mẫu {name} trong settings, giống
+        // hệt Category/Region/Tag. Trước 10/09/2026 Catalog đọc thẳng 3 cột này và
+        // không có fallback, nên chuỗi mẫu 'Title Phim bộ' mà CatalogsTableSeeder
+        // ghi sẵn bị phơi nguyên si ra <title>, og:title, twitter:title lẫn JSON-LD.
+        $seo_title = $this->seo_title ?: $this->getTitle();
+        $seo_des = Str::limit($this->seo_des ?: $this->getDescription(), 150, '...');
+        $seo_key = $this->seo_key ?: $this->getKeywords();
         $getUrl = $this->getUrl();
         $site_meta_siteName = setting('site_meta_siteName');
 

@@ -199,6 +199,45 @@ class SettingsTableSeeder extends Seeder
                 'active'      => 0,
             ],
             [
+                'key'         => 'site_catalog_title',
+                'description' => 'site_catalog_title',
+                'name'        => 'Tiêu đề danh sách mặc định',
+                'field'       => json_encode([
+                    'name' => 'value',
+                    'type' => 'text',
+                    'hint' => 'Thông tin: {name}',
+                    'tab' => 'Danh Sách'
+                ]),
+                'value' => '{name} mới nhất - tổng hợp {name} hay full HD vietsub',
+                'active'      => 0,
+            ],
+            [
+                'key'         => 'site_catalog_des',
+                'description' => 'site_catalog_des',
+                'name'        => 'Description danh sách mặc định',
+                'field'       => json_encode([
+                    'name' => 'value',
+                    'type' => 'text',
+                    'hint' => 'Thông tin: {name}',
+                    'tab' => 'Danh Sách'
+                ]),
+                'value' => 'Tổng hợp {name} mới nhất, cập nhật liên tục, vietsub và thuyết minh full HD. Xem {name} hay chọn lọc.',
+                'active'      => 0,
+            ],
+            [
+                'key'         => 'site_catalog_key',
+                'description' => 'site_catalog_key',
+                'name'        => 'Keywords danh sách mặc định',
+                'field'       => json_encode([
+                    'name' => 'value',
+                    'type' => 'text',
+                    'hint' => 'Thông tin: {name}',
+                    'tab' => 'Danh Sách'
+                ]),
+                'value' => '{name}, {name} mới, {name} hay, {name} vietsub, xem {name}',
+                'active'      => 0,
+            ],
+            [
                 'key'         => 'site_category_title',
                 'description' => 'site_category_title',
                 'name'        => 'Tiêu đề thể loại mặc định',

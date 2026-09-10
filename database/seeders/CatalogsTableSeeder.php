@@ -15,33 +15,38 @@ class CatalogsTableSeeder extends Seeder
      */
     public function run()
     {
+        // Ba ô SEO để trống có chủ đích: Catalog::generateSeoTags() sẽ rơi về mẫu
+        // site_catalog_title/des/key trong settings (có {name}), giống Category.
+        // Trước đây chỗ này ghi sẵn 'Title Phim bộ'/'Des Phim bộ'... và vì model
+        // không có fallback nên chuỗi giữ chỗ đó bị đẩy thẳng ra <title> của
+        // /danh-sach/phim-bo, /danh-sach/phim-le, /danh-sach/phim-moi trên site thật.
         $catalogs = [
             [
                 'name'          => 'Phim mới',
                 'slug'          => 'phim-moi',
                 'paginate'      => 20,
                 'value'         => '|is_copyright|0|updated_at|desc',
-                'seo_title'     => 'Title Phim mới',
-                'seo_des'       => 'Des Phim mới',
-                'seo_key'       => 'Key Phim mới',
+                'seo_title'     => '',
+                'seo_des'       => '',
+                'seo_key'       => '',
             ],
             [
                 'name'          => 'Phim bộ',
                 'slug'          => 'phim-bo',
                 'paginate'      => 20,
                 'value'         => '|type|series|updated_at|desc',
-                'seo_title'     => 'Title Phim bộ',
-                'seo_des'       => 'Des Phim bộ',
-                'seo_key'       => 'Key Phim bộ',
+                'seo_title'     => '',
+                'seo_des'       => '',
+                'seo_key'       => '',
             ],
             [
                 'name'          => 'Phim lẻ',
                 'slug'          => 'phim-le',
                 'paginate'      => 20,
                 'value'         => '|type|single|updated_at|desc',
-                'seo_title'     => 'Title Phim lẻ',
-                'seo_des'       => 'Des Phim lẻ',
-                'seo_key'       => 'Key Phim lẻ',
+                'seo_title'     => '',
+                'seo_des'       => '',
+                'seo_key'       => '',
             ]
         ];
 

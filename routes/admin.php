@@ -40,6 +40,16 @@ Route::group([
     Route::crud('plugin', 'PluginController');
     Route::crud('sitemap', 'SiteMapController');
     Route::get('quick-action/delete-cache', 'QuickActionController@delete_cache');
+
+    // Trang sửa settings theo nhóm. backpack/settings chính chủ chỉ đăng ký
+    // setting/{id}/edit (sửa từng dòng), nhưng sidebar trỏ tới 4 URL dạng
+    // setting/group/{group}/edit — vốn là của bản fork hacoidev/settings cũ.
+    // Không có hai route này thì cả 4 mục trong menu "Cài đặt" trả 404.
+    // Đặt sau Route::crud('setting') của package cũng không sao: số segment
+    // khác nhau (setting/{id}/edit là 3, setting/group/{g}/edit là 4) nên
+    // hai bên không giẫm chân.
+    Route::get('setting/group/{group}/edit', 'SettingGroupController@edit')->name('setting.group.edit');
+    Route::put('setting/group/{group}', 'SettingGroupController@update')->name('setting.group.update');
 });
 
 Route::group([
